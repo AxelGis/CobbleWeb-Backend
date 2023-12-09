@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  app:
+    container_name: nestjs-dev
+    image: nestjs-dev
+    restart: unless-stopped
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+      target: dev
+    env_file:
+      - ../.env.dev
+    ports:
+      - ${APP_OUTER_PORT}:${APP_PORT}
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: route_admin
+      POSTGRES_USER: route_admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./backups:/home/backups

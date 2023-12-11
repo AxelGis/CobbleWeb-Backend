@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PhotosDto, RegisterDto } from 'src/auth/dto/auth.dto';
-import { Client } from 'src/entities/client.entity';
-import { Photo } from 'src/entities/photo.entity';
-import { UsersService } from 'src/users/users.service';
+import { RegisterWithPhotosDto } from '../auth/dto/auth.dto';
+import { Client } from '../entities/client.entity';
+import { Photo } from '../entities/photo.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -17,9 +17,17 @@ export class AuthService {
    * @param registerDto
    * @returns
    */
-  async register(registerDto: RegisterDto & PhotosDto) {
-    const { firstName, lastName, email, password, role, photos } = registerDto;
+  async register(registerDto: RegisterWithPhotosDto) {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role = 'user',
+      photos,
+    } = registerDto;
 
+    //create new user
     const newUser: Client = await this.usersService.create(
       firstName,
       lastName,
@@ -28,6 +36,7 @@ export class AuthService {
       role,
     );
 
+    //upload photos to AWS S3 and create new Photo models
     const newPhotos: Photo[] = await this.usersService.uploadPhotos(
       newUser.id,
       photos,

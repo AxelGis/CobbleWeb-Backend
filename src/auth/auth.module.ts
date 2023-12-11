@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
-import { AppConfig } from 'src/app/app.config';
+import { AppConfig } from '../app/app.config';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({

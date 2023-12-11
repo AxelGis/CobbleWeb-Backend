@@ -1,12 +1,16 @@
 import { Controller, Get, Request } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { Request as ExpressRequest } from 'express';
+import { UsersService } from '../users/users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('/me')
-  findMe(@Request() req) {
+  findMe(
+    @Request()
+    req: ExpressRequest & { user: { userId: number; email: string } },
+  ) {
     return req.user;
   }
 }

@@ -2,9 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MemoryStoredFile } from 'nestjs-form-data';
 import { InjectS3, S3 } from 'nestjs-s3';
-import { AppConfig } from 'src/app/app.config';
-import { Client } from 'src/entities/client.entity';
-import { Photo } from 'src/entities/photo.entity';
+import { AppConfig } from '../app/app.config';
+import { Client } from '../entities/client.entity';
+import { Photo } from '../entities/photo.entity';
 import { Repository } from 'typeorm';
 
 const DEFAULT_AVATAR_URL: string =
@@ -88,7 +88,7 @@ export class UsersService {
   ): Promise<Photo[] | undefined> {
     try {
       return await Promise.all(
-        photos.map(async (photo: MemoryStoredFile) => {
+        photos?.map(async (photo: MemoryStoredFile) => {
           const fileName = `photo${userId}-${photo.originalName}`;
 
           await this.s3.putObject({

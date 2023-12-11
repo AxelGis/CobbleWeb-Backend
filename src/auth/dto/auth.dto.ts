@@ -1,6 +1,12 @@
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { HasMimeType, IsFiles, MemoryStoredFile } from 'nestjs-form-data';
-import { Client } from 'src/entities/client.entity';
+import { Client } from '../../entities/client.entity';
 
 export class RegisterDto implements Partial<Client> {
   @MinLength(2)
@@ -22,7 +28,8 @@ export class RegisterDto implements Partial<Client> {
   password: string;
 
   @IsString()
-  role: string;
+  @IsOptional()
+  role?: string;
 }
 
 export class LoginDto {
@@ -33,8 +40,9 @@ export class LoginDto {
   password: string;
 }
 
-export class PhotosDto {
+export class RegisterWithPhotosDto extends RegisterDto {
+  @IsOptional()
   @IsFiles()
-  @HasMimeType(['image/jpeg', 'image/png'])
+  @HasMimeType(['image/jpeg', 'image/png'], { each: true })
   photos?: MemoryStoredFile[];
 }

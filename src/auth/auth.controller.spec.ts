@@ -5,7 +5,7 @@ import { AppModule } from '../app/app.module';
 import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/users.service';
 import { AuthModule } from '../auth/auth.module';
-import { Client } from 'src/entities/client.entity';
+import { Client } from '../entities/client.entity';
 
 describe('AuthController', () => {
   let app: INestApplication;

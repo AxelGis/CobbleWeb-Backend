@@ -36,7 +36,6 @@ export class AuthService {
       role,
     );
 
-    //upload photos to AWS S3 and create new Photo models
     const newPhotos: Photo[] = await this.usersService.uploadPhotos(
       newUser.id,
       photos,
@@ -62,6 +61,8 @@ export class AuthService {
     const payload = { userId: user.id, email: user.email };
     return {
       access_token: await this.jwtService.signAsync(payload),
+      ...user,
+      password: undefined,
     };
   }
 }

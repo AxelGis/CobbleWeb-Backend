@@ -28,7 +28,23 @@ export class UsersService {
    * @returns
    */
   async findById(id: number): Promise<Client | null> {
-    return await this.usersRepository.findOneBy({ id });
+    return await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+      select: {
+        firstName: true,
+        lastName: true,
+        fullName: true,
+        email: true,
+        role: true,
+        avatar: true,
+        photos: true,
+      },
+      relations: {
+        photos: true,
+      },
+    });
   }
 
   /**
@@ -37,7 +53,14 @@ export class UsersService {
    * @returns
    */
   async findOne(email: string): Promise<Client | null> {
-    return await this.usersRepository.findOneBy({ email });
+    return await this.usersRepository.findOne({
+      where: {
+        email,
+      },
+      relations: {
+        photos: true,
+      },
+    });
   }
 
   /**

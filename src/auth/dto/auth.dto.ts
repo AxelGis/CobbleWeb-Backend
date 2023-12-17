@@ -1,5 +1,7 @@
 import {
+  IsArray,
   IsEmail,
+  IsObject,
   IsOptional,
   IsString,
   MaxLength,
@@ -45,4 +47,21 @@ export class RegisterWithPhotosDto extends RegisterDto {
   @IsFiles()
   @HasMimeType(['image/jpeg', 'image/png'], { each: true })
   photos?: MemoryStoredFile[];
+}
+
+export class PhotosUrlsDto {
+  @IsString()
+  accountId: string;
+  @IsString()
+  filePath: string;
+  @IsString()
+  fileUrl: string;
+  @IsObject()
+  originalFile: any;
+}
+
+export class RegisterWithPhotosUrlsDto extends RegisterDto {
+  @IsOptional()
+  @IsArray()
+  photos?: PhotosUrlsDto[];
 }

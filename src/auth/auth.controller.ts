@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Public } from '../auth/decorators/public.decorator';
 import { LoginDto, RegisterWithPhotosDto } from '../auth/dto/auth.dto';
 import { FormDataRequest } from 'nestjs-form-data';
+import { Client } from '../entities/client.entity';
 
 @Controller()
 export class AuthController {
@@ -12,7 +13,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @FormDataRequest()
   @Post('register')
-  register(@Body() registerDto: RegisterWithPhotosDto) {
+  register(@Body() registerDto: RegisterWithPhotosDto): Promise<Client> {
     return this.authService.register(registerDto);
   }
 

@@ -11,6 +11,6 @@ export class UsersController {
     @Request()
     req: ExpressRequest & { user: { userId: number; email: string } },
   ) {
-    return req.user;
+    return this.usersService.findById(req.user.userId);
   }
 }
